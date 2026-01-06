@@ -8,13 +8,11 @@ import Typography from "@mui/material/Typography";
 import { EyeOff } from "lucide-react";
 import Button from "../button/Button";
 import z from "zod";
-import { useState } from "react";
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  justifyContent: "center",
+  alignItems: "center",
+  position: "relative",
   width: "100%",
   maxwidth: "400px",
   bgcolor: "background.paper",
@@ -48,7 +46,7 @@ export default function LoginModal({ isopen, onClose, className }) {
   } = useForm({ resolver: zodResolver(validation) });
 
   return (
-    <div className="">
+    <div className="flex">
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
