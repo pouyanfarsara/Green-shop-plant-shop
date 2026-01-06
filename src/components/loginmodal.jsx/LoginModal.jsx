@@ -46,7 +46,7 @@ export default function LoginModal({ isopen, onClose, className }) {
   } = useForm({ resolver: zodResolver(validation) });
 
   return (
-    <div className="flex">
+    <div className="flex items-center justify-center">
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
