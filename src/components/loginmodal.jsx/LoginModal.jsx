@@ -1,4 +1,3 @@
-
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -11,13 +10,13 @@ import Button from "../button/Button";
 import z from "zod";
 import { useState } from "react";
 
-
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "100%",
+  maxwidth: "400px",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -35,9 +34,8 @@ const validation = z.object({
     .regex(/\d/, "Password must contain at least one number"),
 });
 
-export default function LoginModal({ isopen, onClose,className }) {
+export default function LoginModal({ isopen, onClose, className }) {
   const onSubmit = (data) => {
-   
     console.log(data);
   };
 
@@ -96,7 +94,6 @@ export default function LoginModal({ isopen, onClose,className }) {
                     />
                     {errors.password && (
                       <span className="text-red-400 text-xs">
-                        
                         {errors.password.message}
                       </span>
                     )}
@@ -115,7 +112,6 @@ export default function LoginModal({ isopen, onClose,className }) {
                     type="submit"
                     className=" cursor-pointer mt-4 w-full p-2 font-semibold bg-[#46A358] rounded-[5px] text-white"
                     text="Login"
-                 
                   />
 
                   <Button
@@ -151,13 +147,6 @@ export default function LoginModal({ isopen, onClose,className }) {
           </Box>
         </Fade>
       </Modal>
-
-   
-
     </div>
-
-
-
-
   );
 }

@@ -25,6 +25,7 @@ import products from "../../components/productData/Productdata";
 import { ProductContext } from "../../components/productcontext/ProductContext";
 
 export default function Shoppage() {
+  const descriptionRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToCart } = useContext(ProductContext);
   const navigate = useNavigate();
@@ -208,7 +209,7 @@ export default function Shoppage() {
           </button>
         </div>
 
-        <div className="tabcontent">
+        <div className="tabcontent" ref={descriptionRef}>
           {activetab === 0 && (
             <div className="tab1 flex flex-col gap-5">
               <p className="text1 text-[#727272] pt-5 text-sm ">
