@@ -16,7 +16,9 @@ nav {
 .navop .options{
     gap:30px;
 }
-
+.bottomsheet {
+  z-index: 50; /* یا بالاتر */
+}
 
 table {
   font-family: arial, sans-serif;

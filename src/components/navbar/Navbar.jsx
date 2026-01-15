@@ -5,7 +5,7 @@ import LoginModal from "../loginmodal.jsx/LoginModal";
 import { Link } from "react-router-dom";
 import SearchModal from "../searchmodal/Searchmodal";
 
-export default function Navbar() {
+export default function Navbar({ onShopClick, onBlogClick }) {
   const [openlogin, setopenlogin] = useState(false);
   const [search, setsearchopen] = useState(false);
   return (
@@ -18,19 +18,20 @@ export default function Navbar() {
         <div className="menulist ">
           <ul className=" hidden   md:flex items-center text-[#3D3D3D]">
             <li>
-              
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link>Shop</Link>
+              <Link onClick={onShopClick}>Shop</Link>
             </li>
             <li>Plant Care</li>
-            <li>Blogs</li>
+            <li className="cursor-pointer" onClick={onBlogClick}>
+              Blogs
+            </li>
           </ul>
         </div>
 
         <div className="navop flex items-center">
-          <div className="options flex">
+          <div className="options  hidden sm:flex">
             <Button
               onClick={() => setsearchopen(true)}
               icon={<Search color="#3D3D3D" className="cursor-pointer" />}
@@ -52,7 +53,7 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      <SearchModal  open={search} onClose={()=>setsearchopen(false)}/>
+      <SearchModal open={search} onClose={() => setsearchopen(false)} />
       <LoginModal isopen={openlogin} onClose={() => setopenlogin(false)} />
     </>
   );

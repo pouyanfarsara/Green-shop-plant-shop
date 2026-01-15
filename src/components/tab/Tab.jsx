@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 const products = [
   {
     id: 1,
@@ -68,31 +69,77 @@ export default function Tabsection() {
             className={activetab === 0 ? "active" : "notactive"}
             onClick={() => setactivetab(0)}
           >
-            All Plants
+            <motion.div
+              whileHover={
+                window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+              }
+              whileInView={
+                window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined
+              }
+              initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
+              transition={{
+                type: "tween",
+                stiffness: 300,
+                damping: 20,
+                duration: 0.6,
+              }}
+            >
+              New plants
+            </motion.div>
           </button>
           <button
             className={activetab === 1 ? "active" : "notactive"}
             onClick={() => setactivetab(1)}
           >
-            New Arrivals
+            <motion.div
+              whileHover={
+                window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+              }
+              whileInView={
+                window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined
+              }
+              initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
+              transition={{
+                type: "tween",
+                stiffness: 300,
+                damping: 20,
+                duration: 0.6,
+              }}
+            >
+              Sale
+            </motion.div>
           </button>
           <button
             className={activetab === 2 ? "active" : "notactive"}
             onClick={() => setactivetab(2)}
           >
-            Sale
+            <motion.div
+              whileHover={
+                window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+              }
+              whileInView={
+                window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined
+              }
+              initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
+              transition={{
+                type: "tween",
+                stiffness: 300,
+                damping: 20,
+                duration: 0.6,
+              }}
+            >
+              All Plants
+            </motion.div>
           </button>
         </div>
-      
       </div>
 
       <div className=" w-full tabs-content text-center justify-center  mt-5">
         {activetab === 0 && (
-          <div className="products grid gap-3 sm:gap-10 grid-cols-2 sm:grid-cols-3 ">
+          <div className="products grid gap-2 sm:gap-7 grid-cols-2 sm:grid-cols-3 ">
             {products.map((product) => (
               <Link key={product.id} to={`/product/${product.id}`}>
-                
-                <div className="flex product  flex-col">
+                <div className="flex product shadow-2xs  flex-col">
                   <img
                     className="bg-[#FBFBFB]  cursor-pointer "
                     width={200}
@@ -100,7 +147,6 @@ export default function Tabsection() {
                     alt={product.title}
                   />
                   <div className="details text-left cursor-pointer my-2">
-                  
                     <h3 className="text-[#3D3D3D] text-sm whitespace-nowrap">
                       {product.title}
                     </h3>
@@ -114,14 +160,53 @@ export default function Tabsection() {
           </div>
         )}
         {activetab === 1 && (
-          <p className="mt-10">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut
-            doloribus architecto tempore! Nam repudiandae dolores nulla fuga,
-            nemo praesentium, illum omnis saepe a alias eos laudantium
-            cupiditate perspiciatis odio corporis.
-          </p>
+          <div className="products grid gap-3 sm:gap-10 grid-cols-2 sm:grid-cols-3 ">
+            {products.map((product) => (
+              <Link key={product.id} to={`/product/${product.id}`}>
+                <div className="flex product  flex-col">
+                  <img
+                    className="bg-[#FBFBFB]  cursor-pointer "
+                    width={200}
+                    src={product.image}
+                    alt={product.title}
+                  />
+                  <div className="details text-left cursor-pointer my-2">
+                    <h3 className="text-[#3D3D3D] text-sm whitespace-nowrap">
+                      {product.title}
+                    </h3>
+                    <span className=" text-sm text-[#46A358]">
+                      {product.price}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         )}
-        {activetab === 2 && <p>new arrivals</p>}
+        {activetab === 2 && (
+          <div className="products grid gap-3 sm:gap-10 grid-cols-2 sm:grid-cols-3 ">
+            {products.map((product) => (
+              <Link key={product.id} to={`/product/${product.id}`}>
+                <div className="flex product  flex-col">
+                  <img
+                    className="bg-[#FBFBFB]  cursor-pointer "
+                    width={200}
+                    src={product.image}
+                    alt={product.title}
+                  />
+                  <div className="details text-left cursor-pointer my-2">
+                    <h3 className="text-[#3D3D3D] text-sm whitespace-nowrap">
+                      {product.title}
+                    </h3>
+                    <span className=" text-sm text-[#46A358]">
+                      {product.price}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

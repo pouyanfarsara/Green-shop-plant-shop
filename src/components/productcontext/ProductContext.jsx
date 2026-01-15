@@ -32,7 +32,9 @@ const ProductProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId, size = null) => {
-    setCart(cart.filter((item) => !(item.id === productId && item.size === size)));
+    setCart(
+      cart.filter((item) => !(item.id === productId && item.size === size))
+    );
   };
 
   const updateQuantity = (productId, size, newQuantity) => {

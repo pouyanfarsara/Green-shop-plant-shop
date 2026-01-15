@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -25,7 +25,6 @@ import products from "../../components/productData/Productdata";
 import { ProductContext } from "../../components/productcontext/ProductContext";
 
 export default function Shoppage() {
-  const descriptionRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToCart } = useContext(ProductContext);
   const navigate = useNavigate();
@@ -209,7 +208,7 @@ export default function Shoppage() {
           </button>
         </div>
 
-        <div className="tabcontent" ref={descriptionRef}>
+        <div className="tabcontent">
           {activetab === 0 && (
             <div className="tab1 flex flex-col gap-5">
               <p className="text1 text-[#727272] pt-5 text-sm ">
@@ -354,7 +353,10 @@ export default function Shoppage() {
             Buy Now
           </button>
           <button className="bg-[#F6F6F6] px-3 rounded-full flex justify-center items-center">
-            <ShoppingCart color="#727272" size={16} />
+            <Link to="/shoppingcart">
+              
+              <ShoppingCart color="#727272" size={16} />
+            </Link>
           </button>
         </div>
       </div>
@@ -362,15 +364,15 @@ export default function Shoppage() {
       <AnimatePresence>
         {isModalOpen && (
           <motion.div
-            initial={{ opacity: 0 }} // فقط شفافیت بک‌دراپ
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 flex justify-center items-start pt-10 z-50"
             onClick={() => setIsModalOpen(false)}
           >
             <motion.div
-              initial={{ y: -50, opacity: 0 }} // ارتفاع اولیه بالاتر از جای نهایی (کمتر از -100vh)
-              animate={{ y: 0, opacity: 1 }} // جای نهایی
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
               exit={{ y: -50, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="bg-white p-6 rounded-xl w-96 shadow-lg"

@@ -28,10 +28,11 @@ import {
   Youtube,
 } from "lucide-react";
 import Tabsection from "../../components/tab/Tab";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Footer from "../../components/footer/Footer";
 import { ProductContext } from "../../components/productcontext/ProductContext";
 import LoginModal from "../../components/loginmodal.jsx/LoginModal";
+import { Link } from "react-router-dom";
 
 const categories = [
   { id: 1, name: "House Plants", count: 33 },
@@ -103,6 +104,17 @@ const products = [
   },
 ];
 export default function Homepage() {
+  const productsRef = useRef(null);
+  const BlogsRef = useRef(null);
+
+  const scrollToProducts = () => {
+    productsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+ const scrollToBlogs = () => {
+  BlogsRef.current.scrollIntoView({ behavior: "smooth" });
+};
+const [activeIcon, setActiveIcon] = useState("home"); 
   const [activecategory, setactivecategory] = useState("All");
   const [price, setPrice] = useState(0);
   const { addToCart } = useContext(ProductContext);
@@ -110,7 +122,7 @@ export default function Homepage() {
   return (
     <>
       <div className="hidden sm:block md:blcok">
-        <Navbar />
+        <Navbar onShopClick={scrollToProducts} onBlogClick={scrollToBlogs} />
       </div>
       {/* in mobile size */}
 
@@ -249,10 +261,10 @@ export default function Homepage() {
           <SwiperSlide>Slide 9</SwiperSlide> */}
         </Swiper>
       </div>
-      <div className="mainsection gap-8  flex mt-7">
-        <div className="categories hidden md:block w-1/4 bg-[#FBFBFB]">
+      <div className="mainsection gap-3  flex mt-7" ref={productsRef}>
+        <div className="categories hidden md:block md:w-1/3 lg:w-1/4 bg-[#FBFBFB] ">
           <h4 className="font-bold mt-3.5 ml-4 text-[#3D3D3D]">Categories</h4>
-          <ul className="px-7 text-[#3D3D3D]   flex-col  text-sm">
+          <ul className="px-4 text-[#3D3D3D]   flex-col  text-sm">
             {categories.map((plant) => (
               <li
                 key={plant.id}
@@ -298,7 +310,7 @@ export default function Homepage() {
             <Button
               text={"Filter"}
               className={
-                "bg-[#46A358] cursor-pointer text-amber-50 block px-6 py-1.5 mx-6 mt-3.5  items-center gap-1 rounded-md font-bold"
+                "bg-[#46A358] cursor-pointer text-amber-50 block py-2 mt-3.5  items-center gap-1 rounded-md font-bold w-full"
               }
             />
           </div>
@@ -320,7 +332,7 @@ export default function Homepage() {
           </div>
         </div>
 
-        <div className="productsection  sm:px-10 ">
+        <div className="productsection pl-2">
           <div className="flex  justify-between  mb-4">
             <div className="tab w-full ">
               <Tabsection />
@@ -329,9 +341,17 @@ export default function Homepage() {
         </div>
       </div>
       <motion.h1
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9 }}
+        whileHover={
+          window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+        }
+        whileInView={window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined}
+        initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
+        transition={{
+          type: "tween",
+          stiffness: 300,
+          damping: 20,
+          duration: 0.6,
+        }}
       >
         <div className="findmore  w-full flex flex-col md:flex-row gap-10  mt-10 ">
           <div className="flex-col  md:flex-col flex sm:flex-row pb-1 items-center px-5 sm:justify-between bg-[#FBFBFB]  md:w-full">
@@ -374,7 +394,7 @@ export default function Homepage() {
         </div>
       </motion.h1>
 
-      <div className="mt-25 blogposts text-center">
+      <div className="mt-25 blogposts text-center" ref={BlogsRef}>
         <h3 className="font-black text-xl text-[#3D3D3D]">Our Blog Posts</h3>
         <span className="text-[#727272] text-sm">
           We are an online plant shop offering a wide range of cheap and trendy
@@ -383,18 +403,22 @@ export default function Homepage() {
 
         <div className="posts mt-4 grid sm:grid-cols-2 md:grid-cols-4 gap-3 grid-cols-1">
           <motion.div
-            whileHover={{
-              scale: 1.05,
-              y: -6,
-            }}
+            whileHover={
+              window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+            }
+            whileInView={
+              window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined
+            }
+            initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
             transition={{
-              type: "spring",
+              type: "tween",
               stiffness: 300,
               damping: 20,
+              duration: 0.6,
             }}
             className="post-card"
           >
-            <div className="postcard cursor-pointer mx-2 flex flex-col bg-[#FBFBFB]">
+            <div className="postcard cursor-pointer  flex flex-col bg-[#FBFBFB]">
               <img src="./images/blog1.png" alt="" />
               <div className="details px-3 pt-1 text-left flex flex-col">
                 <span className="text-[#46A358] text-xs">
@@ -415,21 +439,29 @@ export default function Homepage() {
                   }
                 />
               </div>
-            </div>{" "}
+            </div>
           </motion.div>
           <motion.div
-            whileHover={{
-              scale: 1.05,
-              y: -6,
-            }}
+            whileHover={
+              window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+            }
+            whileInView={
+              window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined
+            }
+            initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
             transition={{
-              type: "spring",
+              type: "tween",
               stiffness: 300,
               damping: 20,
+              duration: 0.6,
             }}
             className="post-card"
           >
-            <div className="postcard cursor-pointer mx-2 flex flex-col bg-[#FBFBFB]">
+            <div
+              className="postcard cursor-pointer 
+            
+            flex flex-col bg-[#FBFBFB]"
+            >
               <img src="./images/blog2.png" alt="" />
               <div className="details px-3 pt-1 text-left flex flex-col">
                 <span className="text-[#46A358] text-xs">
@@ -454,19 +486,23 @@ export default function Homepage() {
           </motion.div>
 
           <motion.div
-            whileHover={{
-              scale: 1.05,
-              y: -6,
-            }}
+            whileHover={
+              window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+            }
+            whileInView={
+              window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined
+            }
+            initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
             transition={{
-              type: "spring",
+              type: "tween",
               stiffness: 300,
               damping: 20,
+              duration: 0.6,
             }}
             className="post-card"
           >
             {" "}
-            <div className="postcard mx-2 cursor-pointer flex flex-col bg-[#FBFBFB]">
+            <div className="postcard  cursor-pointer flex flex-col bg-[#FBFBFB]">
               <img src="./images/blog3.png" alt="" />
               <div className="details px-3 pt-1 text-left flex flex-col">
                 <span className="text-[#46A358] text-xs">
@@ -491,18 +527,22 @@ export default function Homepage() {
           </motion.div>
 
           <motion.div
-            whileHover={{
-              scale: 1.05,
-              y: -6,
-            }}
+            whileHover={
+              window.innerWidth >= 768 ? { scale: 1.05, y: -6 } : undefined
+            }
+            whileInView={
+              window.innerWidth < 768 ? { opacity: 1, y: 0 } : undefined
+            }
+            initial={window.innerWidth < 768 ? { opacity: 0, y: 30 } : {}}
             transition={{
-              type: "spring",
+              type: "tween",
               stiffness: 300,
               damping: 20,
+              duration: 0.6,
             }}
             className="post-card"
           >
-            <div className="postcard mx-2 cursor-pointer flex flex-col bg-[#FBFBFB]">
+            <div className="postcard  cursor-pointer flex flex-col bg-[#FBFBFB]">
               <img src="./images/blog4.png" alt="" />
               <div className="details px-3 pt-1 text-left flex flex-col">
                 <span className="text-[#46A358] text-xs">
@@ -531,25 +571,26 @@ export default function Homepage() {
         <Footer />
       </div>
 
-      <div className="bottomsheet   bg-white shadow sm:hidden flex left-0  fixed bottom-0 py-5 w-full rounded-t-3xl  ">
-        <ul className="flex text-black justify-center gap-12 w-full ">
-          <li>
-            <House color="#D9D9D9" />
-          </li>
-          <li>
-            <Heart color="#D9D9D9" />
-          </li>
-          <li className="cursor-pointer">
-            <ShoppingCartIcon color="#D9D9D9" />
-          </li>
-          <li>
-            <UserRound
-              color={true ? "#46A358" : "#3D3D3D"}
-              onClick={() => setIsLoginOpen(true)}
-            />
-          </li>
-        </ul>
-      </div>
+      <div className="bottomsheet bg-white shadow sm:hidden flex left-0 fixed bottom-0 py-5 w-full rounded-t-3xl">
+      <ul className="flex text-black justify-center gap-12 w-full">
+        <li onClick={() => setActiveIcon("home")}>
+          <Link to="/">
+            <House color={activeIcon === "home" ? "#46A358" : "#D9D9D9"} />
+          </Link>
+        </li>
+        <li onClick={() => setActiveIcon("heart")}>
+          <Heart color={activeIcon === "heart" ? "#46A358" : "#D9D9D9"} />
+        </li>
+        <li onClick={() => setActiveIcon("cart")}>
+      <Link to="/ShoppingCart"> <ShoppingCartIcon
+            color={activeIcon === "cart" ? "#46A358" : "#D9D9D9"}
+          /></Link> 
+        </li>
+        <li onClick={() => setActiveIcon("user")}>
+          <UserRound color={activeIcon === "user" ? "#46A358" : "#D9D9D9"} />
+        </li>
+      </ul>
+    </div>
 
       <div className="flex justify-center items-center mx-4">
         {" "}
