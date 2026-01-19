@@ -9,6 +9,7 @@ import {
   Youtube,
 } from "lucide-react";
 import Button from "../button/Button";
+import toast from "react-hot-toast";
 
 export default function Footer() {
   return (
@@ -56,6 +57,7 @@ export default function Footer() {
               className={
                 "bg-[#46A358]  whitespace-nowrap sm:text-amber-50 text-center text-white px-5 py-2 flex items-center justify-center  gap-1 rounded sm:rounded-r sm:w-auto w-full  font-bold mt-3 sm:mt-5 cursor-pointer"
               }
+              onClick={()=>  toast.success("your message received.")}
             />
           </div>
 

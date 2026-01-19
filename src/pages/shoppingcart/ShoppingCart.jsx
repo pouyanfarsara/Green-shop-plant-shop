@@ -10,9 +10,11 @@ import { ProductContext } from "../../components/productcontext/ProductContext";
 import LoginModal from "../../components/loginmodal.jsx/LoginModal";
 import Button from "../../components/button/Button";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function ShoppingCart() {
   const context = useContext(ProductContext);
+  const { removeFromCart } = useContext(ProductContext);
   const { cart } = useContext(ProductContext);
   const [activeIcon, setActiveIcon] = useState("home");
 
@@ -20,34 +22,49 @@ export default function ShoppingCart() {
     <>
       <Navbar />
       <div className="flex flex-col sm:flex-row  mt-10 gap-3">
-        <div className="shoppingcart w-full sm:w-3/4 flex flex-col gap-2 ">
-          {cart.map((item) => (
-            <tr
-              key={`${item.id}-${item.size}`}
-              className="flex flex-col sm:flex-row sm:items-center justify-start sm:justify-between  bg-[#FBFBFB] w-full py-1"
-            >
-              <td className=" px-1 flex items-center gap-2">
-                <img src={item.image} className="h-20 cursor-pointer " />
-                <span className="whitespace-nowrap cursor-pointer">
-                  {item.title}
-                </span>
-              </td>
-
-              <td className=" flex gap-5 items-center  justify-end sm:justify-between">
-                <span className="text-[#46A358] ">{item.price}</span>
-                <span>{item.quantity}</span>
-                <div>
-                  <span>
-                    <Trash
-                      className="cursor-pointer"
-                      size={15}
-                      color="#46A358"
-                    />
+        <div className="shoppingcart w-full sm:w-3/4 flex flex-col gap-2">
+          {cart.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-64 text-center gap-3">
+              <ShoppingCartIcon size={30} color="#46A358" />
+              <h3 className="text-lg font-semibold text-[#3D3D3D]">
+                Your cart is empty
+              </h3>
+              <p className="text-sm text-gray-500">
+                Looks like you haven’t added anything yet
+              </p>
+              <Link to="/">
+                <Button
+                  text="Continue Shopping"
+                  className="bg-[#46A358] text-white px-5 py-2 rounded"
+                />
+              </Link>
+            </div>
+          ) : (
+            cart.map((item) => (
+              <tr
+                key={`${item.id}-${item.size}`}
+                className="flex flex-col sm:flex-row sm:items-center justify-between bg-[#FBFBFB] w-full py-1"
+              >
+                <td className="px-1 flex items-center gap-2">
+                  <img src={item.image} className="h-20 cursor-pointer" />
+                  <span className="whitespace-nowrap cursor-pointer">
+                    {item.title}
                   </span>
-                </div>
-              </td>
-            </tr>
-          ))}
+                </td>
+
+                <td className="flex gap-5 items-center justify-end sm:justify-between">
+                  <span className="text-[#46A358]">{item.price}</span>
+                  <span>{item.quantity}</span>
+                  <Trash
+                    className="cursor-pointer"
+                    size={15}
+                    color="#46A358"
+                    onClick={() => removeFromCart(item.id, item.size)}
+                  />
+                </td>
+              </tr>
+            ))
+          )}
         </div>
 
         <div className=" w-full sm:w-1/4 flex flex-col gap-1">
@@ -62,9 +79,10 @@ export default function ShoppingCart() {
             />
             <Button
               className={
-                "bg-[#46A358] cursor-pointer whitespace-nowrap text-amber-50  px-2.5 py-1.5 flex items-center h-10 rounded-r font-semibold "
+                "bg-[#46A358] cursor-pointer whitespace-nowrap text-amber-50   px-2.5 py-1.5 flex items-center h-10 rounded-r font-semibold "
               }
               text="Apply"
+              onClick={() => toast.success("Coupon applied!")}
             />
           </div>
           <div className="subtotal flex justify-between w-full ">
@@ -83,15 +101,17 @@ export default function ShoppingCart() {
             <div className="font-semibold">Total</div>
             <span className="font-semibold ">$2600.00</span>
           </div>
-          <Link to='/OrderForm'>  <Button
-            text="Proceed To Checkout"
-            className={
-              "bg-[#46A358] cursor-pointer whitespace-nowrap text-amber-50  px-2.5 py-2 flex items-center justify-center  rounded font-semibold "
-            }
-          /></Link>
-        
+          <Link to="/OrderForm">
+            <Button
+              text="Proceed To Checkout"
+              className={
+                "bg-[#46A358] cursor-pointer whitespace-nowrap text-amber-50  px-2.5 py-2 flex items-center justify-center w-full   rounded font-semibold "
+              }
+            />
+          </Link>
+
           <span className="text-center text-[#46A358] text-xs cursor-pointer">
-            Continue Shopping
+            <Link to="/"> Continue Shopping</Link>
           </span>
         </div>
       </div>

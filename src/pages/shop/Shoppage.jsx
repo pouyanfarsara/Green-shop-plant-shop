@@ -23,10 +23,12 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import products from "../../components/productData/Productdata";
 import { ProductContext } from "../../components/productcontext/ProductContext";
+import toast from "react-hot-toast";
 
 export default function Shoppage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToCart } = useContext(ProductContext);
+  
   const navigate = useNavigate();
   const [count, setCount] = useState(1);
   const [selectedsize, setSelectedsize] = useState();
@@ -36,6 +38,16 @@ export default function Shoppage() {
   const product = products.find((p) => p.id === parseInt(id));
 
   if (!product) return <p>محصول یافت نشد</p>;
+
+  const handleaddtocart = () => {
+    if (!selectedsize) {
+      toast.error("Please select a size first");
+      return;
+    }
+    addToCart(product, count, selectedsize);
+    toast.success("Product added successfully");
+  };
+
   return (
     <>
       <div className="hidden sm:block md:blcok">
@@ -70,7 +82,7 @@ export default function Shoppage() {
             <h3 className=" text-xl sm:text-2xl whitespace-nowrap">
               {product.title}
             </h3>
-            <span className=" text-sm text-[#46A358]">{product.price}</span>
+            <span className=" text-sm text-[#46A358] hidden sm:block">{product.price}</span>
             <div className="divider"></div>
           </div>
           <div className="shortdescription flex flex-col gap-2 w-full">
@@ -148,17 +160,10 @@ export default function Shoppage() {
               />
               <Button
                 text="ADD TO CART"
-                onClick={() => addToCart(product, 1, selectedSize)}
                 className={
                   " sm:bg-transparent whitespace-nowrap border border-[#46A358] sm:text-[#46A358] px-7 py-2  cursor-pointer  items-center text-center  gap-1 rounded-md font-base hover:bg-[#62b1726d] hover:text-white sm:block hidden "
                 }
-                onClick={() => {
-                  if (!selectedsize) {
-                    setIsModalOpen(true);
-                    return;
-                  }
-                  addToCart(product, count, selectedsize);
-                }}
+                onClick={handleaddtocart}
               />
               <Button
                 className="hidden    sm:flex justify-center items-center font-light border rounded px-2 py-2 border-[#46A358]"
@@ -345,7 +350,7 @@ export default function Shoppage() {
             </button>
           </div>
 
-          <span className=" text-sm text-[#46A358]">{product.price}</span>
+          <span className=" text-sm text-[#46A358] ">{product.price}</span>
         </div>
 
         <div className="buy flex gap-3 mt-4 px-6 ">
@@ -353,10 +358,7 @@ export default function Shoppage() {
             Buy Now
           </button>
           <button className="bg-[#F6F6F6] px-3 rounded-full flex justify-center items-center">
-            <Link to="/shoppingcart">
-              
-              <ShoppingCart color="#727272" size={16} />
-            </Link>
+            <ShoppingCart color="#727272" onClick={handleaddtocart} size={16} />
           </button>
         </div>
       </div>
